@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowerRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { Form } from "./components";
+import { Feed, Form } from "./components";
 
 function App() {
   const { token, isLoggedIn, logout } = useAuth();
@@ -30,6 +30,7 @@ function App() {
           component={() => <div>not logged in with pizza</div>}
         />
       )}
+      <Feed />
     </Router>
   );
 }

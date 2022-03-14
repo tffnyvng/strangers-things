@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../custom-hooks";
 
+//this form is for logging in and out/ registering user
+
 export default function Form() {
   const { updateAuthStatus } = useAuth();
 
@@ -13,7 +15,7 @@ export default function Form() {
 
     try {
       const response = await fetch(
-        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/register`,
+        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/login`,
         {
           method: "POST",
           headers: {

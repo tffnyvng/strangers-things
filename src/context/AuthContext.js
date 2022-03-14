@@ -19,12 +19,14 @@ export default function AuthProvider({ children }) {
 
   const providerValue = {
     token,
-    isLogginIn: !!token,
+    isLoggedIn: !!token,
     updateAuthStatus,
     logout,
   };
 
   return (
-    <AuthContext.Provide value={providerValue}>{children}</AuthContext.Provide>
+    <AuthContext.Provider value={providerValue}>
+      {children}
+    </AuthContext.Provider>
   );
 }
