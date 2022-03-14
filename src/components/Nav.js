@@ -18,7 +18,7 @@ a {
 }
 `;
 
-const navLinks = [
+const loggedInLinks = [
   {
     id: 1,
     name: "Home",
@@ -34,17 +34,32 @@ const navLinks = [
     name: "Profile",
     to: "/profile",
   },
+];
+
+const loggedOutLinks = [
   {
-    id: 4,
-    name: "Logout",
-    to: "/account/logout",
+    id: 1,
+    name: "Home",
+    to: "/home",
+  },
+  {
+    id: 2,
+    name: "Login",
+    to: "/login",
+  },
+  {
+    id: 3,
+    name: "Register",
+    to: "/register",
   },
 ];
 
 const Nav = () => {
+  const { isLoggedIn, logout } = useAuth();
+  const navLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
   return (
     <NavContainer>
-      <NavLink id="logo" to="/">
+      <NavLink id="logo" to="/home">
         {"Stranger's Things"}
       </NavLink>
       <div>
@@ -53,15 +68,10 @@ const Nav = () => {
             {name}
           </NavLink>
         ))}
+        {isLoggedIn && <button onClick={logout}>Logout</button>}
       </div>
     </NavContainer>
   );
 };
-//how to make it so clicking the Logout out link will instigate the logout out instead of the button
-// // const logOut = document.getElementById("Logout");
-// // console.dir(logOut);
-// // logOut.addEventListener("click", () => {
-// //   const { logout } = useAuth();
-// //   logout();
-// });
+
 export default Nav;

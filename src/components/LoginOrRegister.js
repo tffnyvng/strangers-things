@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../custom-hooks";
+import { useLocation, useHistory } from "react-router-dom";
 
-//this form is for registering user
-
-export default function Form() {
+const LoginOrRegister = () => {
   const { updateAuthStatus } = useAuth();
+  const { pathname } = useLocation();
+  const history = useHistory();
+
+  const loginOrRegister = pathname.slice(1);
+  // console.log(pathname);
 
   const [form, setForm] = useState({ username: "", password: "" });
 
-  // useEffect (() => {}, []), not in use rn
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -18,7 +21,7 @@ export default function Form() {
 
     try {
       const response = await fetch(
-        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/register`,
+        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/${loginOrRegister}`,
         {
           method: "POST",
           headers: {
@@ -34,8 +37,13 @@ export default function Form() {
         localStorage.st_token = data.token;
         updateAuthStatus();
       } else {
-        throw new Error("error registering user");
+        throw new Error(
+          `error ${
+            loginOrRegister === "login" ? "logging" : "registering"
+          } user`
+        );
       }
+      history.push("/home");
     } catch (error) {
       console.error(error);
     }
@@ -44,16 +52,16 @@ export default function Form() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="formField">
-        <label>Username: </label>
+        <label>{loginOrRegister === "register" && "Choose "}Username: </label>
         <input
-          type="username"
+          type="text"
           name="username"
           value={form.username}
           onChange={handleChange}
         />
       </div>
       <div className="formField">
-        <label>Password: </label>
+        <label>{loginOrRegister === "register" && "Choose "}Password: </label>
         <input
           type="password"
           name="password"
@@ -61,7 +69,12 @@ export default function Form() {
           onChange={handleChange}
         />
       </div>
-      <input type="submit" value="Register" />
+      <input
+        type="submit"
+        value={loginOrRegister === "register" ? "Sign Up" : "Login"}
+      />
     </form>
   );
-}
+};
+
+export default LoginOrRegister;

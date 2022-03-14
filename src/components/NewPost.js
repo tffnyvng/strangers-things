@@ -34,12 +34,13 @@ const NewPost = () => {
           body: JSON.stringify({ post: form }),
         }
       );
-      const {
-        data: { post },
-      } = await response.json();
-      console.log(post);
-      // here's where we can use history.push('/wherever')
-      history.push("/home");
+      const { success, data, error } = await response.json();
+      console.log(data.posts);
+      if (success) {
+        history.push("/home");
+      } else {
+        throw new Error("error creating post");
+      }
     } catch (error) {
       console.error(error);
     }

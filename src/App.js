@@ -3,11 +3,10 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
 import {
   Home,
-  Form,
   NewPost,
   EditPost,
   Nav,
-  Login,
+  LoginOrRegister,
   Message,
 } from "./components";
 
@@ -18,7 +17,7 @@ function App() {
     <div>
       <div> token value is: {token || "''"}</div>
       <div> isLoggedIn?: {isLoggedIn.toString()}</div>
-      <Login />
+
       <button onClick={() => logout()}>Logout</button>
     </div>
   );
@@ -27,24 +26,22 @@ function App() {
     <Router>
       <nav>
         <Nav />
-        {isLoggedIn && <Link to="/">Logging In Link</Link>}
-        {!isLoggedIn && <Link to="/">Logging Out Link</Link>}
       </nav>
-
-      {!isLoggedIn && (
-        <Switch>
-          <Route exact path="/" component={() => route} />
-          <Route path="/home" component={Home} />
-        </Switch>
-      )}
-
-      {isLoggedIn && (
-        <Switch>
-          <Route exact path="/" component={() => route} />
-          <Route path="/home" component={Home} />
-          <Route path="/posts/new" component={NewPost} />
-        </Switch>
-      )}
+      <Switch>
+        {!isLoggedIn && (
+          <>
+            <Route path="/home" component={Home} />
+            <Route path="/login" component={LoginOrRegister} />
+            <Route path="/register" component={LoginOrRegister} />
+          </>
+        )}
+        {isLoggedIn && (
+          <>
+            <Route path="/home" component={Home} />
+            <Route path="/posts/new" component={NewPost} />
+          </>
+        )}{" "}
+      </Switch>
     </Router>
   );
 }
