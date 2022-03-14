@@ -1,7 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { Feed, Form, newPost } from "./components";
+import {
+  Home,
+  Form,
+  NewPost,
+  EditPost,
+  Nav,
+  Login,
+  Message,
+} from "./components";
 
 function App() {
   const { token, isLoggedIn, logout } = useAuth();
@@ -10,7 +18,7 @@ function App() {
     <div>
       <div> token value is: {token || "''"}</div>
       <div> isLoggedIn?: {isLoggedIn.toString()}</div>
-      <Form />
+      <Login />
       <button onClick={() => logout()}>Logout</button>
     </div>
   );
@@ -18,15 +26,25 @@ function App() {
   return (
     <Router>
       <nav>
+        <Nav />
         {isLoggedIn && <Link to="/">Logging In Link</Link>}
         {!isLoggedIn && <Link to="/">Logging Out Link</Link>}
       </nav>
 
-      <Route path="/" component={() => route} />
+      {!isLoggedIn && (
+        <Switch>
+          <Route exact path="/" component={() => route} />
+          <Route path="/home" component={Home} />
+        </Switch>
+      )}
 
-      {!isLoggedIn && <Route path="/new" component={newPost} />}
-
-      <Feed />
+      {isLoggedIn && (
+        <Switch>
+          <Route exact path="/" component={() => route} />
+          <Route path="/home" component={Home} />
+          <Route path="/posts/new" component={NewPost} />
+        </Switch>
+      )}
     </Router>
   );
 }

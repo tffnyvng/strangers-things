@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../custom-hooks";
 
-//this form is for registering user
-
-export default function Form() {
+export default function Login() {
   const { updateAuthStatus } = useAuth();
 
   const [form, setForm] = useState({ username: "", password: "" });
@@ -18,7 +16,7 @@ export default function Form() {
 
     try {
       const response = await fetch(
-        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/register`,
+        `http://strangers-things.herokuapp.com/api/2022-FTB-PT-WEB-FT/users/login`,
         {
           method: "POST",
           headers: {
@@ -34,7 +32,7 @@ export default function Form() {
         localStorage.st_token = data.token;
         updateAuthStatus();
       } else {
-        throw new Error("error registering user");
+        throw new Error("error logging in user");
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +59,7 @@ export default function Form() {
           onChange={handleChange}
         />
       </div>
-      <input type="submit" value="Register" />
+      <input type="submit" value="Login" />
     </form>
   );
 }

@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-//how do i use useHistory (?) followed the NewBlog.js and it says my newPost function cannot use it bc it is not a react component nor a custom hook
-const newPost = () => {
+import { useAuth } from "../custom-hooks";
+
+const NewPost = () => {
   const history = useHistory();
+  const { token } = useAuth();
 
   const [form, setForm] = useState({
     title: "",
-    content: "",
+    description: "",
     price: "",
-    location: "",
+    location: "On request",
     willDeliver: false,
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.bane]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    form.date = new Date().toISOString;
+    // form.date = new Date().toISOString;
 
     try {
-      await fetch(
+      const response = await fetch(
         "https://strangers-things.herokuapp.com/api/2202-FTB-WEB-FT/posts",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ post: form }),
         }
       );
-
-      history.push("/posts");
+      const {
+        data: { post },
+      } = await response.json();
+      console.log(post);
+      // here's where we can use history.push('/wherever')
+      history.push("/home");
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +71,7 @@ const newPost = () => {
           <label>Description: </label>
           <textarea
             style={{ borderRadius: "5px" }}
-            name="title"
+            name="description"
             value={form.description}
             onChange={handleChange}
           />
@@ -80,7 +89,7 @@ const newPost = () => {
         <input type="submit" value={"Post"} />
         <button
           onClick={() => {
-            history.push("/post");
+            history.push("/home");
           }}
         >
           Cancel
@@ -89,4 +98,4 @@ const newPost = () => {
     </section>
   );
 };
-export default newPost;
+export default NewPost;
