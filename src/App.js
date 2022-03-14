@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { Feed, Form } from "./components";
+import { Feed, Form, newPost } from "./components";
 
 function App() {
   const { token, isLoggedIn, logout } = useAuth();
@@ -24,12 +24,8 @@ function App() {
 
       <Route path="/" component={() => route} />
 
-      {!isLoggedIn && (
-        <Route
-          path="/pizza"
-          component={() => <div>not logged in with pizza</div>}
-        />
-      )}
+      {!isLoggedIn && <Route path="/new" component={newPost} />}
+
       <Feed />
     </Router>
   );

@@ -6,7 +6,7 @@ import { useAuth } from "../custom-hooks";
 export default function Form() {
   const { updateAuthStatus } = useAuth();
 
-  const [form, setForm] = useState({ username: "jane", password: "123" });
+  const [form, setForm] = useState({ username: "", password: "" });
 
   // useEffect (() => {}, []), not in use rn
 
@@ -33,8 +33,8 @@ export default function Form() {
       } else {
         throw new Error("error registering user");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
   }
 

@@ -26,7 +26,8 @@ const Feed = () => {
   // return <pre>{JSON.stringify(posts, null, 2)})</pre>;
 
   //this return has the posts object inside of the data object so we need to go into whole 'container' twice to get what we wanted
-  //it worked and then it didn't? All I did was try to style some of the items and it stopped working. Turned it back to how it was and still doesn't work anymore
+  //ok this seems to only work AFTER i do the return statement above ^.
+  //don't use create&update till you turn it back to a normal timestap
   return posts.data.posts.map(
     ({
       title,
@@ -50,7 +51,16 @@ const Feed = () => {
         messages,
         active,
       });
-      return <div>{title}</div>;
+      return (
+        <section>
+          <h3>{title}</h3>
+          <div>Price: {price}</div>
+          <label>Description: </label>
+          <div>{description}</div>
+          <div>Location: {location}</div>
+          <button for="messages">Send message</button>
+        </section>
+      );
     }
   );
 };
