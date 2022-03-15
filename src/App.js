@@ -4,10 +4,11 @@ import { useAuth } from "./custom-hooks";
 import {
   Home,
   NewPost,
-  EditPost,
   Nav,
   LoginOrRegister,
   Message,
+  Profile,
+  Search,
 } from "./components";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     <Router>
       <nav>
         <Nav />
+        <Search />
       </nav>
       <Switch>
         {!isLoggedIn && (
@@ -39,8 +41,9 @@ function App() {
           <>
             <Route path="/home" component={Home} />
             <Route path="/posts/new" component={NewPost} />
+            <Route path="/profile" component={Profile} />
           </>
-        )}{" "}
+        )}
       </Switch>
     </Router>
   );

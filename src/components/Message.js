@@ -8,7 +8,6 @@ const Message = (props) => {
   const { token } = useAuth();
 
   const [form, setForm] = useState({
-    title: "",
     content: "",
   });
 
@@ -21,7 +20,7 @@ const Message = (props) => {
 
     try {
       const response = await fetch(
-        `https://strangers-things.herokuapp.com/api/2202-FTB-WEB-FT/posts/${_id}`,
+        `http://strangers-things.herokuapp.com/api/2202-FTB-WEB-FT/posts/${_id}/messages`,
         {
           method: "POST",
           headers: {
@@ -31,10 +30,13 @@ const Message = (props) => {
           body: JSON.stringify({ message: form }),
         }
       );
-      const {
-        data: { post },
-      } = await response.json();
-      console.log(post);
+      const { success, data: messages, error } = await response.json();
+      if (success) {
+        setForm(messages);
+      } else {
+        throw new Error("error sending the message");
+      }
+      console.log(messages);
       // here's where we can use history.push('/wherever')
     } catch (error) {
       console.error(error);
@@ -43,15 +45,6 @@ const Message = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="formField">
-        <label>Title: </label>
-        <input
-          type="text"
-          name="title"
-          value={form.title}
-          onChange={handleChange}
-        />
-      </div>
       <div className="formField">
         <label>Content: </label>
         <input
