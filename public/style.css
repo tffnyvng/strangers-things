@@ -1,0 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+
+* {
+  font-family: "Rubik", sans-serif;
+  background-color: rgb(188, 197, 219);
+  color: rgb(11, 20, 61);
+}

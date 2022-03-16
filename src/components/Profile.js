@@ -4,7 +4,7 @@ import { useAuth } from "../custom-hooks";
 const Profile = () => {
   const [profile, setProfile] = useState({});
   const { token } = useAuth();
-
+  console.log(token);
   useEffect(() => {
     async function fetchProfile() {
       try {

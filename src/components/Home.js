@@ -1,14 +1,43 @@
 import React, { useState, useEffect } from "react";
 import Message from "./Message";
 import { useAuth } from "../custom-hooks";
+import styled from "styled-components";
 
-//we want this Feed function to provide a scrollable view of the items for sale on this website
+const Posts = styled.section`
+  & {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 400px;
+    box-shadow: 2px 2px 5px gray;
+    padding: 1rem;
+    margin: 1rem;
+  }
+  & > * {
+    padding: 0.5 rem;
+    margin-left: 0.5rem;
+    padding: 1rem;
+  }
+
+  & > button {
+    display: flex;
+    align-self: flex-end;
+  }
+`;
+
+const MsgBtn = styled.button`
+  & {
+    width: 150px;
+    padding: 0.5rem;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+`;
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const { token } = useAuth();
 
-  // async func of getPosts bc we need to wait for the info to be grabbed from the website
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -63,17 +92,18 @@ const Home = () => {
         _id,
       });
       return (
-        <section key={_id}>
+        <Posts key={_id}>
           <h3>{title}</h3>
+
           <div>Price: {price}</div>
           <label>Description: </label>
           <div>{description}</div>
           <div>Location: {location}</div>
           {/* <Link to={`/posts/${post._id}/edit?`}>Edit Post </Link> */}
-          <button htmlFor="messages" onClick={() => <Message />}>
+          <MsgBtn htmlFor="messages" onClick={() => <Message />}>
             Send message
-          </button>
-        </section>
+          </MsgBtn>
+        </Posts>
       );
     }
   );

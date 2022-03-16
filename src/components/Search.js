@@ -1,4 +1,35 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+
+const SearchBar = styled.form`
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 0.5rem;
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 550px;
+    padding: 0.5rem;
+    border: none;
+    box-shadow: 2px 2px 5px gray;
+  }
+
+  input {
+    width: 400px;
+    padding: 0.5rem;
+    border: none;
+  }
+
+  button {
+    padding: 0.5rem;
+  }
+`;
 
 const Search = () => {
   const [posts, setPosts] = useState([]);
@@ -30,9 +61,9 @@ const Search = () => {
   const postsToDisplay = searchTerm.length ? filteredPosts : posts;
 
   return (
-    <form id="search" onSubmit={handleSubmit}>
+    <SearchBar id="search" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="keywords">Search</label>
+        <label htmlFor="keywords">Search:</label>
         <input
           id="keywords"
           type="text"
@@ -42,7 +73,7 @@ const Search = () => {
         />
         <button>Search</button>
       </fieldset>
-    </form>
+    </SearchBar>
   );
 };
 
