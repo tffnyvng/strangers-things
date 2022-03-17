@@ -32,40 +32,50 @@ const SearchBar = styled.form`
   }
 `;
 
-const Search = () => {
-  const [posts, setPosts] = useState([]);
+const Search = ({ posts, setPosts }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(
-        "http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts"
-      );
-      const {
-        data: { posts },
-      } = await response.json();
-      console.log(posts);
-      setPosts(posts);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //mainly for forms
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch(
+  //       "http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts"
+  //     );
+  //     const {
+  //       data: { posts },
+  //     } = await response.json();
+  //     console.log(posts);
+  //     setPosts(posts);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   function postMatches(post, text) {
-    post.includes(text);
-    return post;
+    if (post.title.includes(text) || post.description.includes(text)) {
+      return true;
+    }
   }
 
-  const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
-  const postsToDisplay = searchTerm.length ? filteredPosts : posts;
-  //map over postsToDisplay instead of posts. but where do i put the posts??
+  //need to figure out how to set it on default post view when searchbar is empty
+
+  useEffect(() => {
+    const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
+
+    if (!posts) {
+      return;
+    }
+    setPosts(searchTerm.length ? filteredPosts : posts);
+  }, [searchTerm]);
+
   return (
-    <SearchBar id="search" onSubmit={handleSubmit}>
+    // onSubmit={handleSubmit}
+    <SearchBar id="search">
       <fieldset>
         <label htmlFor="keywords">Looking for:</label>
         <input

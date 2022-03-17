@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Message from "./Message";
+import Search from "./Search";
 import { useAuth } from "../custom-hooks";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Posts = styled.section`
   & {
@@ -25,7 +27,7 @@ const Posts = styled.section`
   }
 `;
 
-const MsgBtn = styled.button`
+const MsgBtn = styled(Link)`
   & {
     width: 120px;
     padding: 0.5rem;
@@ -37,7 +39,7 @@ const MsgBtn = styled.button`
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const { token } = useAuth();
+  const { token, isLoggedIn } = useAuth();
 
   useEffect(() => {
     const getPosts = async () => {
@@ -54,7 +56,7 @@ const Home = () => {
         const {
           data: { posts },
         } = await response.json();
-        console.log(posts);
+        // console.log(posts);
         setPosts(posts);
       } catch (error) {
         console.error(error);
@@ -63,44 +65,48 @@ const Home = () => {
     getPosts();
   }, []);
 
-  console.log(posts);
-  // return <pre>{JSON.stringify(posts, null, 2)})</pre>;
+  // console.log(posts);
 
-  //don't use create&update till you turn it back to a normal timestap
-  return posts.map(
-    ({
-      title,
-      price,
-      description,
-      location,
-      willDeliver,
-      messages,
-      active,
-      _id,
-    }) => {
-      console.log({
-        title,
-        price,
-        description,
-        location,
-        willDeliver,
-        messages,
-        active,
-        _id,
-      });
-      return (
-        <Posts key={_id}>
-          <h3>{title}</h3>
-          <div>Price: {price}</div>
-          <label>Description: </label>
-          <div>{description}</div>
-          <div>Location: {location}</div>
-          <MsgBtn htmlFor="messages" onClick={() => <Message />}>
-            Send message
-          </MsgBtn>
-        </Posts>
+  return (
+    <div>
+      <Search posts={posts} setPosts={setPosts} />
+      {posts.map(
+        ({
+          title,
+          price,
+          description,
+          location,
+          willDeliver,
+          messages,
+          _id,
+        }) => {
+          // console.log({
+          //   title,
+          //   price,
+          //   description,
+          //   location,
+          //   willDeliver,
+          //   messages,
+          //   _id,
+          // });
+          return (
+            <Posts key={_id}>
+              <h3>{title}</h3>
+              <div>Price: {price}</div>
+              <label>Description: </label>
+              <div>{description}</div>
+              <div>Location: {location}</div>
+              {isLoggedIn && (
+                <MsgBtn to={`/posts/${_id}/messages/new`} htmlFor="messages">
+                  Send message
+                </MsgBtn>
+              )}
+            </Posts>
+          );
+        }
+      )}
       );
-    }
+    </div>
   );
 };
 export default Home;

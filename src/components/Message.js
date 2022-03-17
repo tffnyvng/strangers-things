@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
 
-const Message = (props) => {
-  const { _id } = props;
+const Message = () => {
+  const { _id } = useParams();
   const history = useHistory();
   const { token } = useAuth();
 
@@ -54,8 +54,10 @@ const Message = (props) => {
           onChange={handleChange}
         />
       </div>
-      <input type="submit" value="Register" />
+      <input type="submit" value="Send Message" />
     </form>
+
+    // <div> HI I'm new message</div>
   );
 };
 

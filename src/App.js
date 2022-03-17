@@ -14,20 +14,11 @@ import {
 function App() {
   const { token, isLoggedIn, logout } = useAuth();
 
-  const route = (
-    <div>
-      <div> token value is: {token || "''"}</div>
-      <div> isLoggedIn?: {isLoggedIn.toString()}</div>
-
-      <button onClick={() => logout()}>Logout</button>
-    </div>
-  );
-
   return (
     <Router>
       <nav>
         <Nav />
-        <Search />
+        {/* <Route path="/home" component={Search} /> */}
       </nav>
       <Switch>
         {!isLoggedIn && (
@@ -42,6 +33,7 @@ function App() {
             <Route path="/home" component={Home} />
             <Route path="/posts/new" component={NewPost} />
             <Route path="/profile" component={Profile} />
+            <Route path="/posts/:postId/messages/new" component={Message} />
           </>
         )}
       </Switch>
