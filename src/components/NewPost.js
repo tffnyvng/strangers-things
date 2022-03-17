@@ -1,6 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
+import styled from "styled-components";
+
+const NewPostForm = styled.form`
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  & > * {
+    padding: 0.3rem;
+    margin-top: 0.2rem;
+  }
+
+  button {
+    border-radius: 25%;
+  }
+`;
+
+const SubmitBtn = styled.input`
+  border-radius: 25%;
+`;
+
+const TextBox = styled.input`
+  padding: 0.2rem;
+  border: none;
+  border-radius: 10%;
+  box-shadow: 2px 2px 5px gray;
+`;
+
+const DescriptionBox = styled.textarea`
+  border: none;
+  box-shadow: 2px 2px 5px gray;
+`;
 
 const NewPost = () => {
   const history = useHistory();
@@ -48,11 +84,11 @@ const NewPost = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <NewPostForm onSubmit={handleSubmit}>
       <h2>New Post</h2>
       <div className="formField">
         <label>Title: </label>
-        <input
+        <TextBox
           type="text"
           name="title"
           value={form.title}
@@ -61,7 +97,7 @@ const NewPost = () => {
       </div>
       <div className="formField">
         <label>Price: </label>
-        <input
+        <TextBox
           type="text"
           name="price"
           value={form.price}
@@ -70,7 +106,7 @@ const NewPost = () => {
       </div>
       <div className="formField">
         <label>Description: </label>
-        <textarea
+        <DescriptionBox
           style={{ borderRadius: "5px" }}
           name="description"
           value={form.description}
@@ -79,15 +115,15 @@ const NewPost = () => {
       </div>
       <div className="formField">
         <label>Location: </label>
-        <input
+        <TextBox
           type="text"
           name="location"
-          value={form.location || "[On Request]"}
+          value={form.location}
           onChange={handleChange}
         />
       </div>
 
-      <input type="submit" value={"Post"} />
+      <SubmitBtn type="submit" value={"Post"} />
       <button
         onClick={() => {
           history.push("/home");
@@ -95,7 +131,7 @@ const NewPost = () => {
       >
         Cancel
       </button>
-    </form>
+    </NewPostForm>
   );
 };
 export default NewPost;

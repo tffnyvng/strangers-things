@@ -8,7 +8,7 @@ const Posts = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 400px;
+    width: 500px;
     box-shadow: 2px 2px 5px gray;
     padding: 1rem;
     margin: 1rem;
@@ -27,10 +27,11 @@ const Posts = styled.section`
 
 const MsgBtn = styled.button`
   & {
-    width: 150px;
+    width: 120px;
     padding: 0.5rem;
     margin-left: 1.5rem;
     margin-bottom: 1rem;
+    border-radius: 25%;
   }
 `;
 
@@ -71,8 +72,6 @@ const Home = () => {
       title,
       price,
       description,
-      // createdAt,
-      // updatedAt,
       location,
       willDeliver,
       messages,
@@ -83,8 +82,6 @@ const Home = () => {
         title,
         price,
         description,
-        // createdAt,
-        // updatedAt,
         location,
         willDeliver,
         messages,
@@ -94,12 +91,10 @@ const Home = () => {
       return (
         <Posts key={_id}>
           <h3>{title}</h3>
-
           <div>Price: {price}</div>
           <label>Description: </label>
           <div>{description}</div>
           <div>Location: {location}</div>
-          {/* <Link to={`/posts/${post._id}/edit?`}>Edit Post </Link> */}
           <MsgBtn htmlFor="messages" onClick={() => <Message />}>
             Send message
           </MsgBtn>

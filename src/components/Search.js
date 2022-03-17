@@ -14,7 +14,7 @@ const SearchBar = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 550px;
+    width: 600px;
     padding: 0.5rem;
     border: none;
     box-shadow: 2px 2px 5px gray;
@@ -28,6 +28,7 @@ const SearchBar = styled.form`
 
   button {
     padding: 0.5rem;
+    border-radius: 25%;
   }
 `;
 
@@ -55,15 +56,18 @@ const Search = () => {
     }
   };
 
-  function postMatches(post, text) {}
+  function postMatches(post, text) {
+    post.includes(text);
+    return post;
+  }
 
   const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
   const postsToDisplay = searchTerm.length ? filteredPosts : posts;
-
+  //map over postsToDisplay instead of posts. but where do i put the posts??
   return (
     <SearchBar id="search" onSubmit={handleSubmit}>
       <fieldset>
-        <label htmlFor="keywords">Search:</label>
+        <label htmlFor="keywords">Looking for:</label>
         <input
           id="keywords"
           type="text"

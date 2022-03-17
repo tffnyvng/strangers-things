@@ -16,6 +16,13 @@ a {
   padding: 0.5 rem;
   margin-left: 0.5rem;
 }
+
+button {
+  margin-left: 0.5rem;
+  border-radius: 25%;
+  padding: 0.2rem;
+  font-size: 15px;
+}
 `;
 
 const loggedInLinks = [

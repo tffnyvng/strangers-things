@@ -1,5 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../custom-hooks";
+import styled from "styled-components";
+
+const ProfileStyle = styled.section`
+  & {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    padding: 0.5rem;
+  }
+`;
+
+const Headers = styled.h1`
+  text-decoration: underline;
+  padding: 0;
+  font-size: 25px;
+  text-weight: bold;
+  margin: 10px;
+`;
+
+const SubHeaders = styled.h3`
+  text-decoration: underline;
+  padding: 0.2rem;
+  margin: 10px;
+`;
+
+const ProfileContainers = styled.section`
+  & {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    padding: 0.5rem;
+  }
+`;
 
 const Profile = () => {
   const [profile, setProfile] = useState({});
@@ -72,36 +107,41 @@ const Profile = () => {
   // );
 
   return (
-    <section>
-      <div>
-        <h1>My Messages</h1>
-        {messages
-          ? messages &&
-            messages.map((msg) => (
-              <article key={msg._id}>
-                <h4>Post ID: {msg.post._id}</h4>
-                <p>Post Title: {msg.post.title}</p>
-              </article>
-            ))
-          : "no messages"}
-      </div>
-      <h1>My Posts</h1>
-      <h3>Active Posts</h3>
-      {activePosts.length
-        ? activePosts &&
+    <ProfileStyle>
+      <ProfileContainers>
+        <Headers>My Messages</Headers>
+        {messages ? (
+          messages &&
+          messages.map((msg) => (
+            <article key={msg._id}>
+              <h4>Post ID: {msg.post._id}</h4>
+              <p>Post Title: {msg.post.title}</p>
+            </article>
+          ))
+        ) : (
+          <div> no messages </div>
+        )}
+      </ProfileContainers>
+      <ProfileContainers>
+        <Headers>My Posts</Headers>
+        <SubHeaders>Active Posts</SubHeaders>
+        {activePosts.length ? (
+          activePosts &&
           activePosts.map((post) => (
-            <article ket={post._id}>
+            <article key={post._id}>
               <h4>Title: {post.title}</h4>
               <p>Description: {post.description}</p>
               <p>Price: {post.price}</p>
               <button onClick={() => deletePost(post._id)}>Delete</button>
             </article>
           ))
-        : "no active posts"}
+        ) : (
+          <div>no active posts</div>
+        )}
 
-      <h3>Inactive Posts</h3>
-      {inactivePosts.length
-        ? inactivePosts &&
+        <SubHeaders>Inactive Posts</SubHeaders>
+        {inactivePosts.length ? (
+          inactivePosts &&
           inactivePosts.map((post) => (
             <article ket={post._id}>
               <h4>Title: {post.title}</h4>
@@ -109,9 +149,12 @@ const Profile = () => {
               <p>Price: {post.price}</p>
             </article>
           ))
-        : "no inactive posts"}
-      {/* <EditPost setProfile={setProfile} /> */}
-    </section>
+        ) : (
+          <div>no inactive posts</div>
+        )}
+        {/* <EditPost setProfile={setProfile} /> */}
+      </ProfileContainers>
+    </ProfileStyle>
   );
 };
 
