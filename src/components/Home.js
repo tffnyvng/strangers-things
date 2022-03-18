@@ -39,6 +39,8 @@ const MsgBtn = styled(Link)`
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [filter, setFilter] = useState(false);
   const { token, isLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -58,6 +60,7 @@ const Home = () => {
         } = await response.json();
         // console.log(posts);
         setPosts(posts);
+        setFilteredPosts(posts);
       } catch (error) {
         console.error(error);
       }
@@ -65,46 +68,77 @@ const Home = () => {
     getPosts();
   }, []);
 
-  // console.log(posts);
+  const filterPostsBySearchTerm = (searchTerm) => {
+    const postContainsSearchTerm = (post, searchTerm) => {
+      // if searchTerm is falsy ie is empty string
+      if (searchTerm === "") {
+        console.log("search is empty!");
+        return true;
+      }
+
+      console.log("hit filter posts fn");
+
+      for (const key in post) {
+        if (typeof post[key] === "string") {
+          // if the searchTerm is defined and it's not found
+          // this boolean will be false
+          // otherwise, the string was found at some index
+          // starting from (and including) zero :D
+
+          if (post[key].indexOf(searchTerm) >= 0) return true;
+        }
+      }
+
+      return false;
+    };
+
+    if (!searchTerm) {
+      return;
+    }
+
+    // this keeps the original posts intact by
+    // generating a fresh copy that's immutable, ie not linked in memory, to the original posts
+    // so we can return to the unfiltered posts array
+    // whenever the user clears search :D
+    setFilteredPosts(
+      posts.filter((post) => postContainsSearchTerm(post, searchTerm))
+    );
+
+    setFilter(filteredPosts.length < posts ? true : false);
+  };
+
+  const postsToDisplay = !filter ? filteredPosts : posts;
+
+  console.log(postsToDisplay);
 
   return (
     <div>
-      <Search posts={posts} setPosts={setPosts} />
-      {posts.map(
-        ({
-          title,
-          price,
-          description,
-          location,
-          willDeliver,
-          messages,
-          _id,
-        }) => {
-          // console.log({
-          //   title,
-          //   price,
-          //   description,
-          //   location,
-          //   willDeliver,
-          //   messages,
-          //   _id,
-          // });
-          return (
-            <Posts key={_id}>
-              <h3>{title}</h3>
-              <div>Price: {price}</div>
-              <label>Description: </label>
-              <div>{description}</div>
-              <div>Location: {location}</div>
-              {isLoggedIn && (
-                <MsgBtn to={`/posts/${_id}/messages/new`} htmlFor="messages">
-                  Send message
-                </MsgBtn>
-              )}
-            </Posts>
-          );
-        }
-      )}
+      <Search filterPostsBySearchTerm={filterPostsBySearchTerm} />
+      {postsToDisplay.map(({ title, price, description, location, _id }) => {
+        // console.log({
+        //   title,
+        //   price,
+        //   description,
+        //   location,
+        //   willDeliver,
+        //   messages,
+        //   _id,
+        // });
+        return (
+          <Posts key={_id}>
+            <h3>{title}</h3>
+            <div>Price: {price}</div>
+            <label>Description: </label>
+            <div>{description}</div>
+            <div>Location: {location}</div>
+            {isLoggedIn && (
+              <MsgBtn to={`/posts/${_id}/messages/new`} htmlFor="messages">
+                Send message
+              </MsgBtn>
+            )}
+          </Posts>
+        );
+      })}
     </div>
   );
 };

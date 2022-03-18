@@ -18,7 +18,6 @@ function App() {
     <Router>
       <nav>
         <Nav />
-        {/* <Route path="/home" component={Search} /> */}
       </nav>
       <Switch>
         {!isLoggedIn && (
