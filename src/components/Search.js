@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 const SearchBar = styled.form`
   & {
@@ -37,7 +37,7 @@ const SearchBtn = styled.input`
 `;
 
 const Search = ({ filterPostsBySearchTerm }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [noMatches, setNoMatches] = useState(false);
 
@@ -50,63 +50,17 @@ const Search = ({ filterPostsBySearchTerm }) => {
       setNoMatches(false);
     }
 
+    console.log('hit blur');
     console.log({ e: e.target.value });
-
-    console.log("hit blur");
 
     filterPostsBySearchTerm(e.target.value);
     setSearchTerm(e.target.value);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch(
-  //       "http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts"
-  //     );
-  //     const {
-  //       data: { posts },
-  //     } = await response.json();
-  //     console.log(posts);
-  //     setPosts(posts);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // function postMatches(post, text) {
-  //   const postTitle = post.title.toLowerCase();
-  //   const postDesc = post.description.toLowerCase();
-
-  //   if (
-  //     postTitle.includes(text.toLowerCase()) ||
-  //     postDesc.includes(text.toLowerCase())
-  //   ) {
-  //     return true;
-  //   }
-  // }
-
   const handleSearchClick = () => {
-    // setIsSearching(true);
-    console.log("hit search click");
+    console.log('hit search click');
     filterPostsBySearchTerm(searchTerm);
   };
-
-  // useEffect(() => {
-  //   if (!isSearching) {
-  //     return false;
-  //   }
-
-  //   const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
-  //   const postsToDisplay = searchTerm.length ? filteredPosts : posts;
-  //   // console.log(searchTerm);
-  //   if (isSearching === true && filteredPosts.length === 0) {
-  //     setNoMatches(true);
-  //     console.log(noMatches);
-  //   }
-  //   setPosts(postsToDisplay);
-  //   setIsSearching(false);
-  // }, [isSearching === true]);
 
   return (
     <>

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Message from "./Message";
-import Search from "./Search";
-import { useAuth } from "../custom-hooks";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import Message from './Message';
+import Search from './Search';
+import { useAuth } from '../custom-hooks';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Posts = styled.section`
   & {
@@ -47,9 +47,9 @@ const Home = () => {
     const getPosts = async () => {
       try {
         const response = await fetch(
-          "http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts",
+          'http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts',
           {
-            method: "GET",
+            method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -71,15 +71,15 @@ const Home = () => {
   const filterPostsBySearchTerm = (searchTerm) => {
     const postContainsSearchTerm = (post, searchTerm) => {
       // if searchTerm is falsy ie is empty string
-      if (searchTerm === "") {
-        console.log("search is empty!");
+      if (searchTerm === '') {
+        console.log('search is empty!');
         return true;
       }
 
-      console.log("hit filter posts fn");
+      console.log('hit filter posts fn');
 
       for (const key in post) {
-        if (typeof post[key] === "string") {
+        if (typeof post[key] === 'string') {
           // if the searchTerm is defined and it's not found
           // this boolean will be false
           // otherwise, the string was found at some index
@@ -92,10 +92,6 @@ const Home = () => {
       return false;
     };
 
-    if (!searchTerm) {
-      return;
-    }
-
     // this keeps the original posts intact by
     // generating a fresh copy that's immutable, ie not linked in memory, to the original posts
     // so we can return to the unfiltered posts array
@@ -104,12 +100,18 @@ const Home = () => {
       posts.filter((post) => postContainsSearchTerm(post, searchTerm))
     );
 
-    setFilter(filteredPosts.length < posts ? true : false);
+    setFilter(!filter);
   };
 
-  const postsToDisplay = !filter ? filteredPosts : posts;
+  const [postsToDisplay, setPostsToDisplay] = useState([]);
 
-  console.log(postsToDisplay);
+  useEffect(() => {
+    setPostsToDisplay(
+      filteredPosts.length < posts.length ? filteredPosts : posts
+    );
+  }, [filter, filteredPosts, posts]);
+
+  console.log({ postsToDisplay });
 
   return (
     <div>
