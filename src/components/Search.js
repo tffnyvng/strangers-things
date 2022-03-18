@@ -34,6 +34,7 @@ const SearchBar = styled.form`
 
 const Search = ({ posts, setPosts }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -57,24 +58,38 @@ const Search = ({ posts, setPosts }) => {
   // };
 
   function postMatches(post, text) {
-    if (post.title.includes(text) || post.description.includes(text)) {
+    const postTitle = post.title.toLowerCase();
+    const postDesc = post.description.toLowerCase();
+
+    if (
+      postTitle.includes(text.toLowerCase()) ||
+      postDesc.includes(text.toLowerCase())
+    ) {
       return true;
     }
   }
 
-  //need to figure out how to set it on default post view when searchbar is empty
+  //need to figure out how to set it on default post view when searchbar is empty; so far it only works one way
+  const handleSearchClick = () => {
+    setIsSearching(true);
+  };
 
   useEffect(() => {
-    const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
-
-    if (!posts) {
-      return;
+    if (!isSearching) {
+      return false;
     }
-    setPosts(searchTerm.length ? filteredPosts : posts);
-  }, [searchTerm]);
+    const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
+    const postsToDisplay = searchTerm.length ? filteredPosts : posts;
+    console.log(searchTerm);
+    if (!posts) {
+      return "No matches found";
+    }
+    setPosts(postsToDisplay);
+    setIsSearching(false);
+  }, [isSearching === true]);
 
+  //can i use button for search instead of input?
   return (
-    // onSubmit={handleSubmit}
     <SearchBar id="search">
       <fieldset>
         <label htmlFor="keywords">Looking for:</label>
@@ -85,7 +100,7 @@ const Search = ({ posts, setPosts }) => {
           value={searchTerm}
           onChange={handleChange}
         />
-        <button>Search</button>
+        <input type="button" onClick={handleSearchClick} value="Search" />
       </fieldset>
     </SearchBar>
   );
