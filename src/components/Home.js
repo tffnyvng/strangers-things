@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Message from './Message';
-import Search from './Search';
-import { useAuth } from '../custom-hooks';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import Search from "./Search";
+import { useAuth } from "../custom-hooks";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Posts = styled.section`
   & {
@@ -21,19 +20,24 @@ const Posts = styled.section`
     padding: 1rem;
   }
 
-  & > button {
-    display: flex;
-    align-self: flex-end;
+  & > h3 {
+    text-decoration: underline;
   }
 `;
 
 const MsgBtn = styled(Link)`
   & {
-    width: 120px;
+    width: 225px;
     padding: 0.5rem;
     margin-left: 1.5rem;
     margin-bottom: 1rem;
     border-radius: 25%;
+    box-shadow: 2px 2px 5px gray;
+    text-decoration: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -47,9 +51,9 @@ const Home = () => {
     const getPosts = async () => {
       try {
         const response = await fetch(
-          'http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts',
+          "http://strangers-things.herokuapp.com/api/2202-FTB-PT-WEB-FT/posts",
           {
-            method: 'GET',
+            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -71,21 +75,22 @@ const Home = () => {
   const filterPostsBySearchTerm = (searchTerm) => {
     const postContainsSearchTerm = (post, searchTerm) => {
       // if searchTerm is falsy ie is empty string
-      if (searchTerm === '') {
-        console.log('search is empty!');
+      if (searchTerm === "") {
+        console.log("search is empty!");
         return true;
       }
 
-      console.log('hit filter posts fn');
+      console.log("hit filter posts fn");
 
       for (const key in post) {
-        if (typeof post[key] === 'string') {
+        if (typeof post[key] === "string") {
           // if the searchTerm is defined and it's not found
           // this boolean will be false
           // otherwise, the string was found at some index
           // starting from (and including) zero :D
 
-          if (post[key].indexOf(searchTerm) >= 0) return true;
+          if (post[key].toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0)
+            return true;
         }
       }
 
@@ -135,7 +140,7 @@ const Home = () => {
             <div>Location: {location}</div>
             {isLoggedIn && (
               <MsgBtn to={`/posts/${_id}/messages/new`} htmlFor="messages">
-                Send message
+                Send the owner a message
               </MsgBtn>
             )}
           </Posts>

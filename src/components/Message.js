@@ -1,6 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
+import styled from "styled-components";
+
+const MessageForm = styled.form`
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    padding: 1rem;
+  }
+
+  & > * {
+    padding: 0.5rem;
+    border-radius: 25%;
+  }
+
+  h2 {
+    text-decoration: underline;
+  }
+`;
+
+const MsgBox = styled.textarea`
+  border: none;
+  box-shadow: 2px 2px 5px gray;
+`;
 
 const Message = () => {
   const { _id } = useParams();
@@ -37,6 +63,7 @@ const Message = () => {
         throw new Error("error sending the message");
       }
       console.log(messages);
+      history.push("/home");
       // here's where we can use history.push('/wherever')
     } catch (error) {
       console.error(error);
@@ -44,10 +71,11 @@ const Message = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <MessageForm onSubmit={handleSubmit}>
       <div className="formField">
+        <h2>Message</h2>
         <label>Content: </label>
-        <input
+        <MsgBox
           type="text"
           name="content"
           value={form.content}
@@ -55,7 +83,7 @@ const Message = () => {
         />
       </div>
       <input type="submit" value="Send Message" />
-    </form>
+    </MessageForm>
 
     // <div> HI I'm new message</div>
   );

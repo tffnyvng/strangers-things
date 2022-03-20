@@ -1,6 +1,34 @@
 import React, { useState } from "react";
 import { useAuth } from "../custom-hooks";
 import { useLocation, useHistory } from "react-router-dom";
+import styled from "styled-components";
+
+const LoginRegForm = styled.form`
+  & {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    box-shadow: 2px 2px 5px gray;
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  & > * {
+    padding: 0.5 rem;
+    margin-left: 0.5rem;
+    padding: 1rem;
+  }
+`;
+
+const SubmitBtn = styled.input`
+  & {
+    width: 75px;
+    padding: 0.2rem;
+    border-radius: 25%;
+  }
+`;
 
 const LoginOrRegister = () => {
   const { updateAuthStatus } = useAuth();
@@ -50,7 +78,7 @@ const LoginOrRegister = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <LoginRegForm onSubmit={handleSubmit}>
       <div className="formField">
         <label>{loginOrRegister === "register" && "Choose "}Username: </label>
         <input
@@ -69,11 +97,11 @@ const LoginOrRegister = () => {
           onChange={handleChange}
         />
       </div>
-      <input
+      <SubmitBtn
         type="submit"
         value={loginOrRegister === "register" ? "Sign Up" : "Login"}
       />
-    </form>
+    </LoginRegForm>
   );
 };
 

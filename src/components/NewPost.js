@@ -73,8 +73,8 @@ const NewPost = () => {
       const { success, data: posts, error } = await response.json();
       console.log(success, posts, error);
       if (success) {
-        // history.push("/home");
-        console.log("Yay success");
+        history.push("/home");
+        // console.log("Yay success");
       } else {
         throw new Error("error creating post");
       }

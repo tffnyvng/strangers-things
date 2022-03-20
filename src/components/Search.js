@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const SearchBar = styled.form`
   & {
@@ -37,7 +37,7 @@ const SearchBtn = styled.input`
 `;
 
 const Search = ({ filterPostsBySearchTerm }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [noMatches, setNoMatches] = useState(false);
 
@@ -50,7 +50,7 @@ const Search = ({ filterPostsBySearchTerm }) => {
       setNoMatches(false);
     }
 
-    console.log('hit blur');
+    console.log("hit blur");
     console.log({ e: e.target.value });
 
     filterPostsBySearchTerm(e.target.value);
@@ -58,7 +58,7 @@ const Search = ({ filterPostsBySearchTerm }) => {
   };
 
   const handleSearchClick = () => {
-    console.log('hit search click');
+    console.log("hit search click");
     filterPostsBySearchTerm(searchTerm);
   };
 
